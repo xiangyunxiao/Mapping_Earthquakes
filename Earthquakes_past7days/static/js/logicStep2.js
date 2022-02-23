@@ -31,9 +31,17 @@ let map = L.map('mapid', {
 // Pass our map layers into our layers control and add the layers control to the map.
 L.control.layers(baseMaps).addTo(map);
 
-let a = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geojson";
 // Retrieve the earthquake GeoJSON data.
-d3.json(a).then(function(data) {
-  // Creating a GeoJSON layer with the retrieved data.
-  L.geoJson(data).addTo(map);
+d3.json("https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geojson").then(function(data) {
+// Creating a GeoJSON layer with the retrieved data.
+  L.geoJSON(data, {
+
+  // We turn each feature into a circleMarker on the map.
+  
+  pointToLayer: function(feature, latlng) {
+              console.log(data);
+              return L.circleMarker(latlng);
+          },
+      }).addTo(map);
+  });
 });
